@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:studentapp/main_screen.dart';
-import 'package:studentapp/register_page.dart';
 
-import 'Accounts/account.dart';
+import 'package:studentapp/pages/register_page.dart';
+
+
+
+import '../repostory/account.dart';
+import 'main_screen.dart';
 
 
 

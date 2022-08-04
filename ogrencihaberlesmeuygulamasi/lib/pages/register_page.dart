@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:studentapp/Accounts/account.dart';
-import 'package:studentapp/main_screen.dart';
+
+import '../repostory/account.dart';
+import 'main_screen.dart';
 
 
 class RegisterPage extends StatefulWidget {
