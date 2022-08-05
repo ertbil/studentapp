@@ -1,19 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:studentapp/repostory/student_repo.dart';
 import 'package:studentapp/repostory/teacher_repo.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class TeacherListpage extends StatefulWidget{
+class TeacherListpage extends ConsumerWidget{
   TeacherRepo teacherRepo;
 
   TeacherListpage(this.teacherRepo);
 
-  @override
-  State<TeacherListpage> createState() => _TeacherListpageState();
-}
 
-class _TeacherListpageState extends State<TeacherListpage> {
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final  teacherRepo = ref.watch(teacherProvider);
     return Scaffold(
       appBar: AppBar(),
 
@@ -28,15 +25,15 @@ class _TeacherListpageState extends State<TeacherListpage> {
 
             Padding(
               padding: EdgeInsets.symmetric(vertical: 32.0,horizontal: 32.0),
-              child:   Text("${widget.teacherRepo.teacher.length} Student"),
+              child:   Text("${teacherRepo.teacher.length} Student"),
             ),
             Expanded(
               child: ListView.separated(itemBuilder:(context, index) => StudentRow(
-                  widget.teacherRepo.teacher[index],
-                  widget.teacherRepo
+                 teacherRepo.teacher[index],
+
               ),
                 separatorBuilder: (context, index) => Divider(),
-                itemCount: widget.teacherRepo.teacher.length,
+                itemCount: teacherRepo.teacher.length,
 
 
               ),
@@ -55,23 +52,20 @@ class _TeacherListpageState extends State<TeacherListpage> {
   }
 }
 
-class StudentRow extends StatefulWidget {
+class StudentRow extends ConsumerWidget {
   Teacher teacher;
-  TeacherRepo teacherRepo;
 
-  StudentRow(this.teacher,this.teacherRepo, {Key? key}) : super(key: key);
+
+  StudentRow(this.teacher, {Key? key}) : super(key: key);
+
 
   @override
-  State<StudentRow> createState() => _StudentRowState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
 
-class _StudentRowState extends State<StudentRow> {
-  @override
-  Widget build(BuildContext context) {
 
     return ListTile(
-      leading: IntrinsicWidth(child: Center(child: Text(widget.teacher.gender == "Kadın" ? "🙎🏻‍♀" : "🙎🏻‍♂"))),
-      title: Text(widget.teacher.name + " " + widget.teacher.surname,),
+      leading: IntrinsicWidth(child: Center(child: Text(teacher.gender == "Kadın" ? "🙎🏻‍♀" : "🙎🏻‍♂"))),
+      title: Text(teacher.name + " " + teacher.surname,),
 
 
     );

@@ -1,18 +1,14 @@
 import 'package:flutter/material.dart';
-
 import 'package:studentapp/pages/register_page.dart';
-
-
-
 import '../repostory/account.dart';
 import 'main_screen.dart';
-
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 
 List<Account> accounts = [Account("Ert", "123456", 123, "University", "Student")];
 
 void main() {
-  runApp(const StudentApp());
+  runApp(ProviderScope(child: const StudentApp()));
 }
 
 class StudentApp extends StatelessWidget {
@@ -182,7 +178,7 @@ class LogInPage extends StatelessWidget {
                               if (everythingOK == true) {
                                 Navigator.of(context).push(
                                     MaterialPageRoute(builder: (context) {
-                                      return MainPage(account: accounts[0]);
+                                      return  MainPage(account: accounts[0]);
                                     }
                                     )
                                 );

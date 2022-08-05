@@ -1,4 +1,7 @@
-class StudentRepo{
+import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+class StudentRepo extends ChangeNotifier{
   final student = [
     Student("Ali","Yılmaz",18,"Erkek"),
     Student("Veli", "Çelik", 18, "Erkek"),
@@ -13,17 +16,19 @@ class StudentRepo{
     }else{
       this.liked.remove(student);
     }
-
-
+    notifyListeners();
   }
 
   isLiked(Student student) {
     return liked.contains(student);
-
   }
 
-
 }
+final studentProvider = ChangeNotifierProvider((ref) {
+      return StudentRepo();
+
+});
+
 
 class Student{
   String name;

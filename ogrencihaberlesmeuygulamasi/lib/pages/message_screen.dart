@@ -1,23 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:studentapp/repostory/message_repo.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class MessagePage extends StatefulWidget{
-  MessagesRepository messagesRepository;
+class MessagePage extends ConsumerStatefulWidget{
 
-  MessagePage(this.messagesRepository, {Key? key}) : super(key: key);
+
+  MessagePage( {Key? key}) : super(key: key);
 
   @override
-  State<MessagePage> createState() => _MessagePageState();
+  _MessagePageState createState() => _MessagePageState();
 }
 
-class _MessagePageState extends State<MessagePage> {
+class _MessagePageState extends ConsumerState<MessagePage> {
   @override
   void initState() {
-    widget.messagesRepository.newMessageCount = 0;
+
+    Future.delayed(Duration.zero).then(
+    (value) =>  ref.read(newMessageCountProvider.notifier).reset(),
+    );
     super.initState();
   }
   @override
   Widget build(BuildContext context) {
+    var messagesRepository = ref.watch(messageProvider);
     return Scaffold(
       appBar: AppBar(),
       body: Column(
@@ -25,9 +30,9 @@ class _MessagePageState extends State<MessagePage> {
           Expanded(
             child: ListView.builder(
               reverse: true,
-              itemCount: widget.messagesRepository.messages.length,
+              itemCount: messagesRepository.messages.length,
               itemBuilder: (context, index) {
-              return MessageView( widget.messagesRepository.messages[widget.messagesRepository.messages.length-index-1]);
+              return MessageView( messagesRepository.messages[messagesRepository.messages.length-index-1]);
             },),
           ),
          Padding(
