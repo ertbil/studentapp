@@ -50,7 +50,7 @@ class MainPage extends ConsumerWidget {
                 return TeacherListpage(teacherRepo);
               }));
             },
-                child: Text("${teacherRepo.teacher.length} Teacher")
+                child: Text("${teacherRepo.teachers.length} Teacher")
             ),
 
 

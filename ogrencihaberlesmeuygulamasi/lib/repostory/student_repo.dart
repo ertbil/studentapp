@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:studentapp/models/student.dart';
 
 class StudentRepo extends ChangeNotifier{
   final student = [
@@ -30,13 +31,3 @@ final studentProvider = ChangeNotifierProvider((ref) {
 });
 
 
-class Student{
-  String name;
-  String surname;
-  int age;
-  String gender;
-
-  Student(this.name, this.surname, this.age, this.gender);
-
-
-}
