@@ -12,7 +12,7 @@ class DataService {
   
 
   Future<Teacher> downloadTeacher() async {
-    http.Response response = await http.get(Uri.parse('$baseUrl/${random.nextInt(10)}'));
+    http.Response response = await http.get(Uri.parse('$baseUrl/${random.nextInt(13)}'));
     if (response.statusCode == 200) {
       // If the server did return a 200 OK response,
       // then parse the JSON.
@@ -22,6 +22,27 @@ class DataService {
       throw Exception('Teacher download ended with failure ${response.statusCode}');
     }
 
+  }
+
+  Future<void> addTeacher(Teacher teacher) async {
+    
+
+
+    final  response = await http.post(
+        Uri.parse(baseUrl),
+        headers: <String, String>{
+        'Content-Type': 'application/json; charset=UTF-8',
+        },
+        body: jsonEncode(teacher.toMap()),
+
+    );
+    if (response.statusCode == 201) {
+
+      return;
+    } else {
+
+      throw Exception('Teacher creation ended with failure ${response.statusCode}');
+    }
   }
 
 

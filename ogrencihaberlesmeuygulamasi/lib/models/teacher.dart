@@ -9,5 +9,15 @@ class Teacher{
     m['name'], m['surname'], m['age'], m['gender']
   );
 
+  Map toMap() {
+
+    return {
+      'name': name,
+      'surname': surname,
+      'age': age,
+      'gender': gender
+    };
+  }
+
 
 }

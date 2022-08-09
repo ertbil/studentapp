@@ -359,7 +359,8 @@ This privacy policy page was created at [privacypolicytemplate.net](https://priv
                             ),
 
                           const Text("I agree to the"),
-                          TextButton(onPressed: () {
+                          TextButton(
+                              onPressed: () {
                             showDialog<void>(
                                     context: context,
                                     barrierDismissible: false,
