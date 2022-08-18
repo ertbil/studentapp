@@ -289,7 +289,6 @@ This privacy policy page was created at [privacypolicytemplate.net](https://priv
                                       setState(() {
                                         school = value;
                                       });
-
                                   },
                                     validator: (value) {
                                       if(!schoolType.contains(value)){
@@ -309,7 +308,6 @@ This privacy policy page was created at [privacypolicytemplate.net](https://priv
                                         border: OutlineInputBorder(
                                           borderRadius: BorderRadius.circular(15.0),
                                           borderSide: BorderSide.none,
-
                                         ),
                                         filled: true,
                                         fillColor: Colors.grey[200],
@@ -342,17 +340,10 @@ This privacy policy page was created at [privacypolicytemplate.net](https://priv
                                 child: Column(
                                     children: [
                                       Checkbox(
-
-
-
-
                                         value: isChecked,
-
                                         onChanged: (value) {
                                         setState(() => isChecked = value!);
                                         print(isChecked);
-
-
                                       },)
                                     ]
                                 )
@@ -456,10 +447,8 @@ This privacy policy page was created at [privacypolicytemplate.net](https://priv
                                             ],
                                           );
                                         }
-
                                         );
                                    }
-
                                  }
                                 ),
                             ),

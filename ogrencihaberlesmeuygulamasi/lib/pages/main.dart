@@ -1,10 +1,13 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:studentapp/pages/register_page.dart';
+import 'package:studentapp/utilities/google_sign_in.dart';
 import '../repostory/account.dart';
 import 'main_screen.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-
+//TODO login screen ile splash screen birleştirilecek
 List<Account> accounts = [Account("Ert", "123456", 123, "University", "Student")];
 
 void main() {
@@ -23,15 +26,58 @@ class StudentApp extends StatelessWidget {
 
         primarySwatch: Colors.blue,
       ),
-      home:  LogInPage(title: 'Student App Demo'),
+      home:  LogInPage(),
+    );
+  }
+}
+class SplashScreen extends StatefulWidget {
+
+  const SplashScreen({Key? key}) : super(key: key);
+
+  @override
+  State<SplashScreen> createState() => _SplashScreenState();
+}
+
+class _SplashScreenState extends State<SplashScreen> {
+
+  @override
+  void initState() {
+    initializeFirebase();
+    super.initState();
+  }
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Container(
+        child: const Center(
+          child: CircularProgressIndicator(),
+        ),
+      ),
+    );
+  }
+
+  void initializeFirebase() async {
+    await Firebase.initializeApp();
+    if(FirebaseAuth.instance.currentUser != null){
+      Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) {
+            return MainPage(account: accounts[0]);
+          }
+          )
+      );
+    }
+    Navigator.of(context).pushReplacement(MaterialPageRoute(
+        builder: (context)  => LogInPage()
+
+    )
     );
   }
 }
 
 class LogInPage extends StatelessWidget {
-   LogInPage({Key? key, required this.title}) : super(key: key);
+   LogInPage({Key? key}) : super(key: key);
 
-  final String title;
+
   TextEditingController usernameController = TextEditingController();
    TextEditingController passwordController = TextEditingController();
    final formKey = GlobalKey<FormState>();
@@ -45,6 +91,7 @@ class LogInPage extends StatelessWidget {
 
 
         child: Column(
+
 
 
           mainAxisAlignment: MainAxisAlignment.center,
@@ -156,17 +203,33 @@ class LogInPage extends StatelessWidget {
                             },child: Text("Forgotten Password?")
                             ),
                           ],
-                        ) ],
+                        ),
+
+                      ],
                     ),
 
                   ),
-
-
 
                       Row(
                         mainAxisAlignment: MainAxisAlignment.center,
 
                         children: [
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: IconButton(
+
+                                onPressed: () async {
+                                  await signInWithGoogle();
+                                  Navigator.of(context).pushReplacement(
+                                      MaterialPageRoute(builder: (context) {
+                                        return MainPage(account: accounts[0]);
+                                      }
+                                      )
+                                  );
+                                },
+                                icon: Image.asset("images/google_logo.png")
+                            ),
+                          ),
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: ElevatedButton(
@@ -176,9 +239,9 @@ class LogInPage extends StatelessWidget {
                                   ?.validate();
 
                               if (everythingOK == true) {
-                                Navigator.of(context).push(
+                                Navigator.of(context).pushReplacement(
                                     MaterialPageRoute(builder: (context) {
-                                      return  MainPage(account: accounts[0]);
+                                      return MainPage(account: accounts[0]);
                                     }
                                     )
                                 );

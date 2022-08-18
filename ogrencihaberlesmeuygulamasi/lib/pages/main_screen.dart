@@ -1,3 +1,4 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:studentapp/pages/student_list_screen.dart';
 import 'package:studentapp/pages/teacher_list_screen.dart';
@@ -7,6 +8,12 @@ import '../repostory/account.dart';
 import '../repostory/message_repo.dart';
 import 'message_screen.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+
+
+
+
+
 
 class MainPage extends ConsumerWidget {
   MainPage({Key? key, required this.account }) : super(key: key);

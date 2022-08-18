@@ -40,15 +40,26 @@ class TeacherListpage extends ConsumerWidget{
               child:   Text("${teacherRepo.teachers.length} teacher"),
             ),
             Expanded(
-              child: ListView.separated(itemBuilder:(context, index) => TeacherRow(
-                 teacherRepo.teachers[index],
+              child: RefreshIndicator(
+                onRefresh: () async {
+                  ref.refresh(teacherListProvider);
+                },
+                child: ref.watch(teacherListProvider).when(
+                    data: (data) => ListView.separated(itemBuilder:(context, index) => TeacherRow(
+                      data[index],
 
-              ),
-                separatorBuilder: (context, index) => const Divider(),
-                itemCount: teacherRepo.teachers.length,
+                    ),
+                      separatorBuilder: (context, index) => const Divider(),
+                      itemCount: data.length,
 
 
-              ),
+                    ),
+                    error: (error, stackTrace) {
+                      return Text("Error!!!");
+
+                    },
+                    loading: () => Center(child: CircularProgressIndicator(),),),
+              )
             )
 
 
@@ -250,9 +261,7 @@ class _AddTeacherState extends ConsumerState<AddTeacher> {
                                 },
                                 child: const Text('CANCEL'),
                               ),
-
                           isSaving ? CircularProgressIndicator(): TextButton(
-
                             onPressed: ()   {
                               final formState  = _formKey.currentState;
                               if(formState == null) return;
@@ -260,19 +269,14 @@ class _AddTeacherState extends ConsumerState<AddTeacher> {
                                 formState.save();
                                 print(inputs);
                                 _save();
-
-
                                 nameController.text = "";
                                 ageController.text = "";
                                 surnameController.text = "";
                                 Navigator.pop(context);
                               }
-
-
                             },
                             child: const Text('ADD'),
                           ),
-
 
                             ],
                           ),
@@ -285,9 +289,6 @@ class _AddTeacherState extends ConsumerState<AddTeacher> {
             );
           },
         );
-
-
-
       },
 
       );
@@ -295,11 +296,19 @@ class _AddTeacherState extends ConsumerState<AddTeacher> {
     }
 
   Future<void> _save()  async {
+    bool finished = false;
+
+    while(!finished){
+
     try{
       setState(() {
         isSaving = true;
       });
-      await ref.read(dataServiceProvider).addTeacher(Teacher.fromMap(inputs));
+      await saver();
+      finished = true;
+      Fluttertoast.showToast(msg: "Saved successfully", backgroundColor: const Color.fromRGBO(66, 66, 66, 100), textColor: Colors.white);
+
+
 
     }catch(e){
 
@@ -311,8 +320,21 @@ class _AddTeacherState extends ConsumerState<AddTeacher> {
       setState(() {
         isSaving = false;
 
-      });}
+      });
+    }
+    }
 
+  }
+  int i = 0;
+
+  Future<void> saver() async {
+    i++;
+    if(i<3){
+      throw "failed to save";
+
+
+    }
+    await ref.read(dataServiceProvider).addTeacher(Teacher.fromMap(inputs));
   }
   }
 

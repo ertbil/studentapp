@@ -25,8 +25,6 @@ class DataService {
   }
 
   Future<void> addTeacher(Teacher teacher) async {
-    
-
 
     final  response = await http.post(
         Uri.parse(baseUrl),
@@ -42,6 +40,20 @@ class DataService {
     } else {
 
       throw Exception('Teacher creation ended with failure ${response.statusCode}');
+    }
+  }
+
+  Future<List<Teacher>> getTeachers() async {
+    http.Response response = await http.get(Uri.parse(baseUrl));
+    if (response.statusCode == 200) {
+
+      final l = jsonDecode(response.body);
+      return l.map<Teacher>((e)=> Teacher.fromMap(e)).toList();
+
+
+    } else {
+
+      throw Exception('Teachers download ended with failure ${response.statusCode}');
     }
   }
 
