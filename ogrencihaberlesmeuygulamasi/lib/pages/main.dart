@@ -30,35 +30,31 @@ class StudentApp extends StatelessWidget {
     );
   }
 }
-class SplashScreen extends StatefulWidget {
 
-  const SplashScreen({Key? key}) : super(key: key);
+
+
+class LogInPage extends StatefulWidget {
+   LogInPage({Key? key}) : super(key: key);
 
   @override
-  State<SplashScreen> createState() => _SplashScreenState();
+  State<LogInPage> createState() => _LogInPageState();
 }
 
-class _SplashScreenState extends State<SplashScreen> {
+class _LogInPageState extends State<LogInPage> {
+  TextEditingController usernameController = TextEditingController();
 
-  @override
+   TextEditingController passwordController = TextEditingController();
+
+   final formKey = GlobalKey<FormState>();
+   @override
   void initState() {
     initializeFirebase();
+
     super.initState();
   }
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: Container(
-        child: const Center(
-          child: CircularProgressIndicator(),
-        ),
-      ),
-    );
-  }
-
   void initializeFirebase() async {
     await Firebase.initializeApp();
-    if(FirebaseAuth.instance.currentUser != null){
+    if (FirebaseAuth.instance.currentUser != null) {
       Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (context) {
             return MainPage(account: accounts[0]);
@@ -66,21 +62,7 @@ class _SplashScreenState extends State<SplashScreen> {
           )
       );
     }
-    Navigator.of(context).pushReplacement(MaterialPageRoute(
-        builder: (context)  => LogInPage()
-
-    )
-    );
   }
-}
-
-class LogInPage extends StatelessWidget {
-   LogInPage({Key? key}) : super(key: key);
-
-
-  TextEditingController usernameController = TextEditingController();
-   TextEditingController passwordController = TextEditingController();
-   final formKey = GlobalKey<FormState>();
 
   @override
   Widget build(BuildContext context) {
@@ -250,7 +232,9 @@ class LogInPage extends StatelessWidget {
                             }
 
                               ,),
+
                           ),
+
 
                           Padding(
                             padding: const EdgeInsets.all(8.0),
