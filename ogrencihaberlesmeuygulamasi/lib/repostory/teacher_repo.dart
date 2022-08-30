@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:studentapp/models/teacher.dart';
@@ -23,7 +21,9 @@ class TeacherRepo extends ChangeNotifier{
 
   Future<List<Teacher>> getAll() async {
     teachers = await dataService.getTeachers();
+    notifyListeners();
     return teachers;
+
   }
 
 }

@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -202,6 +203,22 @@ class _LogInPageState extends State<LogInPage> {
 
                                 onPressed: () async {
                                   await signInWithGoogle();
+
+                                  FirebaseFirestore.instance
+                                      .collection("users")
+                                      .doc(FirebaseAuth.instance.currentUser!.uid)
+                                      .set({
+                                    "isLogged": true,
+                                    "lastLogTime": FieldValue.serverTimestamp(),
+                                    "name": FirebaseAuth.instance.currentUser!.displayName,
+                                    "email": FirebaseAuth.instance.currentUser!.email,
+
+                                  },
+                                  SetOptions(merge: true),
+                                  );
+
+
+
                                   Navigator.of(context).pushReplacement(
                                       MaterialPageRoute(builder: (context) {
                                         return MainPage(account: accounts[0]);

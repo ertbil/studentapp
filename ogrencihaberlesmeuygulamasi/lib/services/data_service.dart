@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:math';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:studentapp/models/teacher.dart';
 import 'package:http/http.dart' as http;
@@ -12,6 +13,10 @@ class DataService {
   
 
   Future<Teacher> downloadTeacher() async {
+    // final querySnapShot = await FirebaseFirestore.instance.collection("teachers").get(); firebaseden veri çekmek için
+    //
+    // final teacherList = querySnapShot.docs.map((e) => Teacher.fromMap(e.data())).toList();
+
     http.Response response = await http.get(Uri.parse('$baseUrl/${random.nextInt(13)}'));
     if (response.statusCode == 200) {
       // If the server did return a 200 OK response,
@@ -25,6 +30,7 @@ class DataService {
   }
 
   Future<void> addTeacher(Teacher teacher) async {
+    await FirebaseFirestore.instance.collection('teachers').add(teacher.toMap());
 
     final  response = await http.post(
         Uri.parse(baseUrl),

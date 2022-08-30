@@ -55,17 +55,12 @@ class TeacherListpage extends ConsumerWidget{
 
                     ),
                     error: (error, stackTrace) {
-                      return Text("Error!!!");
+                      return const Text("Error!!!");
 
                     },
-                    loading: () => Center(child: CircularProgressIndicator(),),),
+                    loading: () => const Center(child: CircularProgressIndicator(),),),
               )
             )
-
-
-
-
-
 
           ],
         ),
@@ -261,18 +256,19 @@ class _AddTeacherState extends ConsumerState<AddTeacher> {
                                 },
                                 child: const Text('CANCEL'),
                               ),
-                          isSaving ? CircularProgressIndicator(): TextButton(
+                          isSaving ? const CircularProgressIndicator(): TextButton(
                             onPressed: ()   {
                               final formState  = _formKey.currentState;
                               if(formState == null) return;
                               if(formState.validate() == true){
                                 formState.save();
-                                print(inputs);
                                 _save();
                                 nameController.text = "";
                                 ageController.text = "";
                                 surnameController.text = "";
                                 Navigator.pop(context);
+                                ref.refresh(teacherListProvider);
+
                               }
                             },
                             child: const Text('ADD'),
@@ -325,15 +321,10 @@ class _AddTeacherState extends ConsumerState<AddTeacher> {
     }
 
   }
-  int i = 0;
+
 
   Future<void> saver() async {
-    i++;
-    if(i<3){
-      throw "failed to save";
 
-
-    }
     await ref.read(dataServiceProvider).addTeacher(Teacher.fromMap(inputs));
   }
   }
