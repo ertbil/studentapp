@@ -1,9 +1,11 @@
 import 'dart:io';
+import 'dart:math';
 import 'dart:typed_data';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:studentapp/pages/student_list_screen.dart';
 import 'package:studentapp/pages/teacher_list_screen.dart';
@@ -32,7 +34,19 @@ service cloud.firestore {
   }
 }*/
 
+/*
 
+rules_version = '2';
+service firebase.storage {
+  match /b/{bucket}/o {
+    match /ppics/{imagename} {
+      allow read, write: if request.auth != null && imagename.matches(request.auth.uid +'.jpg');
+    }
+  }
+}
+
+
+*/
 
 class MainPage extends ConsumerWidget {
   const MainPage({Key? key, required this.account }) : super(key: key);
@@ -68,7 +82,7 @@ class MainPage extends ConsumerWidget {
               title: const Text("Message"),
               onTap: () {
                 Navigator.of(context).push(MaterialPageRoute(builder: (context) {
-                  return MessagePage();
+                  return const MessagePage();
                 }));
               },
             ),
@@ -77,7 +91,7 @@ class MainPage extends ConsumerWidget {
               onTap: () {
                 signOutWithGoogle();
                 Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) {
-                  return LogInPage();
+                  return const LogInPage();
                 }));
               },
             ),
@@ -98,7 +112,7 @@ class MainPage extends ConsumerWidget {
 
             TextButton(onPressed: () async {
              await Navigator.of(context).push(MaterialPageRoute(builder: (context){
-                return MessagePage();
+                return const MessagePage();
               }
               ));
             },
@@ -158,7 +172,6 @@ class _UserHeaderState extends State<UserHeader> {
           Uint8List? uint8list = await FirebaseStorage.instance.ref(userRecMap["ppicref"]).getData();
           return uint8list;
     }
-    ;
 
   }
 
@@ -205,10 +218,7 @@ class _UserHeaderState extends State<UserHeader> {
 
                 if(snapshot.hasData && snapshot.data != null){
                   final picInMemory = snapshot.data!;
-                  return  CircleAvatar(
-                    radius: 50,
-                    backgroundImage: MemoryImage(picInMemory),
-                  );
+                  return  MovingAvatar(picInMemory: picInMemory);
                 }
                 else {
                     return CircleAvatar(
@@ -232,4 +242,52 @@ class _UserHeaderState extends State<UserHeader> {
   }
 
 
+}
+
+class MovingAvatar extends StatefulWidget {
+  const MovingAvatar({
+    Key? key,
+    required this.picInMemory,
+  }) : super(key: key);
+
+  final Uint8List picInMemory;
+
+  @override
+  State<MovingAvatar> createState() => _MovingAvatarState();
+}
+
+class _MovingAvatarState extends State<MovingAvatar> with SingleTickerProviderStateMixin<MovingAvatar> {
+
+  late Ticker _ticker;
+
+  double horizantalPos = 0;
+
+  @override
+  void initState() {
+
+    super.initState();
+     _ticker  = createTicker((elapsed) {
+       final angle  = pi * elapsed.inMicroseconds/const Duration(seconds: 1).inMicroseconds;
+        setState(() {
+            horizantalPos =  sin(angle)*30+30;
+        });
+     });
+     _ticker.start();
+  }
+
+  @override
+  void dispose() {
+    _ticker.dispose();
+    super.dispose();
+  }
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding:  EdgeInsets.only(left : horizantalPos),
+      child: CircleAvatar(
+        radius: 50,
+        backgroundImage: MemoryImage(widget.picInMemory),
+      ),
+    );
+  }
 }

@@ -6,7 +6,7 @@ import 'package:studentapp/models/message.dart';
 class MessagePage extends ConsumerStatefulWidget{
 
 
-  MessagePage( {Key? key}) : super(key: key);
+  const MessagePage( {Key? key}) : super(key: key);
 
   @override
   _MessagePageState createState() => _MessagePageState();

@@ -36,7 +36,7 @@ class StudentListPage extends ConsumerWidget{
                 studentRepo.student[index],
 
               ),
-                separatorBuilder: (context, index) => Divider(),
+                separatorBuilder: (context, index) => const Divider(),
                 itemCount: studentRepo.student.length,
 
 

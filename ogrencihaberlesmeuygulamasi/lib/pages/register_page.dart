@@ -5,7 +5,7 @@ import 'main_screen.dart';
 
 
 class RegisterPage extends StatefulWidget {
-  RegisterPage({Key? key,  }) : super(key: key);
+  const RegisterPage({Key? key,  }) : super(key: key);
 
   @override
   State<RegisterPage> createState() => _RegisterPageState();
@@ -101,7 +101,7 @@ This privacy policy page was created at [privacypolicytemplate.net](https://priv
 
 
     return Scaffold(
-      appBar: AppBar(title: Text("Register Page")),
+      appBar: AppBar(title: const Text("Register Page")),
 
       body: Center(
 
@@ -282,8 +282,8 @@ This privacy policy page was created at [privacypolicytemplate.net](https://priv
 
                                     items: schoolType.map(
                                     (e) => DropdownMenuItem(
-                                            child: Text(e),
                                             value: e,
+                                            child: Text(e),
                                               )).toList(),
                                     onChanged: (value) {
                                       setState(() {
@@ -315,8 +315,8 @@ This privacy policy page was created at [privacypolicytemplate.net](https://priv
 
                                     items: personalType.map(
                                     (e) => DropdownMenuItem(
-                                                child: Text(e),
                                                 value: e,
+                                                child: Text(e),
                                                 )).toList(),
                                     onChanged: (value) {
                                       setState(() {
@@ -343,7 +343,7 @@ This privacy policy page was created at [privacypolicytemplate.net](https://priv
                                         value: isChecked,
                                         onChanged: (value) {
                                         setState(() => isChecked = value!);
-                                        print(isChecked);
+
                                       },)
                                     ]
                                 )
@@ -358,14 +358,14 @@ This privacy policy page was created at [privacypolicytemplate.net](https://priv
                                     // false = user must tap button, true = tap outside dialog
                                     builder: (BuildContext dialogContext) {
                                       return AlertDialog(
-                                        title: Text('Terms'),
+                                        title: const Text('Terms'),
                                         content: SingleChildScrollView(child: Text(term)),
                                         actions: [
                                           TextButton(
                                             onPressed: () {
                                               Navigator.pop(context);
                                             },
-                                            child: Text('CANCEL'),
+                                            child: const Text('CANCEL'),
                                           ),
                                           TextButton(
 
@@ -375,7 +375,7 @@ This privacy policy page was created at [privacypolicytemplate.net](https://priv
                                               });
                                               Navigator.pop(context);
                                             },
-                                            child: Text('ACCEPT'),
+                                            child: const Text('ACCEPT'),
                                           ),
                                         ],
                                       );
@@ -424,7 +424,7 @@ This privacy policy page was created at [privacypolicytemplate.net](https://priv
 
                                         builder: (BuildContext dialogContext) {
                                           return AlertDialog(
-                                            title: Text('Terms'),
+                                            title: const Text('Terms'),
                                             content: SingleChildScrollView(
                                                 child: Text(term)),
                                             actions: [
@@ -432,7 +432,7 @@ This privacy policy page was created at [privacypolicytemplate.net](https://priv
                                                 onPressed: () {
                                                   Navigator.pop(context);
                                                 },
-                                                child: Text('CANCEL'),
+                                                child: const Text('CANCEL'),
                                               ),
                                               TextButton(
 
@@ -442,7 +442,7 @@ This privacy policy page was created at [privacypolicytemplate.net](https://priv
                                                   });
                                                   Navigator.pop(context);
                                                 },
-                                                child: Text('ACCEPT'),
+                                                child: const Text('ACCEPT'),
                                               ),
                                             ],
                                           );

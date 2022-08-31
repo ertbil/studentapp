@@ -12,7 +12,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 List<Account> accounts = [Account("Ert", "123456", 123, "University", "Student")];
 
 void main() {
-  runApp(ProviderScope(child: const StudentApp()));
+  runApp(const ProviderScope(child: StudentApp()));
 }
 
 class StudentApp extends StatelessWidget {
@@ -27,7 +27,7 @@ class StudentApp extends StatelessWidget {
 
         primarySwatch: Colors.blue,
       ),
-      home:  LogInPage(),
+      home:  const LogInPage(),
     );
   }
 }
@@ -35,7 +35,7 @@ class StudentApp extends StatelessWidget {
 
 
 class LogInPage extends StatefulWidget {
-   LogInPage({Key? key}) : super(key: key);
+   const LogInPage({Key? key}) : super(key: key);
 
   @override
   State<LogInPage> createState() => _LogInPageState();
@@ -170,20 +170,20 @@ class _LogInPageState extends State<LogInPage> {
                                 // false = user must tap button, true = tap outside dialog
                                 builder: (BuildContext dialogContext) {
                                   return AlertDialog(
-                                    title: Text('Your Password'),
+                                    title: const Text('Your Password'),
                                     content: SingleChildScrollView(child: Text(accounts[0].password)),
                                     actions: [
                                       TextButton(
                                         onPressed: () {
                                           Navigator.pop(context);
                                         },
-                                        child: Text('CANCEL'),
+                                        child: const Text('CANCEL'),
                                       ),
                                     ],
                                   );
                                 },
                               );
-                            },child: Text("Forgotten Password?")
+                            },child: const Text("Forgotten Password?")
                             ),
                           ],
                         ),
@@ -232,7 +232,7 @@ class _LogInPageState extends State<LogInPage> {
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: ElevatedButton(
-                              child: Text("Log in"),
+                              child: const Text("Log in"),
                             onPressed: () {
                               final bool? everythingOK = formKey.currentState
                                   ?.validate();
@@ -256,10 +256,10 @@ class _LogInPageState extends State<LogInPage> {
                           Padding(
                             padding: const EdgeInsets.all(8.0),
                             child: ElevatedButton(
-                              child: Text("Register"),
+                              child: const Text("Register"),
                               onPressed: (){
                                 Navigator.of(context).push(MaterialPageRoute(builder: (context){
-                                  return RegisterPage();
+                                  return const RegisterPage();
                                 }));
 
                               }
