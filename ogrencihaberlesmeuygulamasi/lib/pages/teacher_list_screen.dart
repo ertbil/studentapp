@@ -37,7 +37,19 @@ class TeacherListpage extends ConsumerWidget{
 
             Padding(
               padding: const EdgeInsets.symmetric(vertical: 32.0,horizontal: 32.0),
-              child:   Text("${teacherRepo.teachers.length} teacher"),
+              child:    Hero(
+                  tag: "teacher",
+                  child: Material(
+                    child: Container(
+                        padding: const EdgeInsets.all(8.0),
+
+                        child: Text("${teacherRepo.teachers.length} teacher")
+                    ),
+                  )
+              ),
+
+
+
             ),
             Expanded(
               child: RefreshIndicator(
@@ -79,12 +91,14 @@ class AddTeacher extends ConsumerStatefulWidget {
   ConsumerState<AddTeacher> createState() => _AddTeacherState();
 }
 
-class _AddTeacherState extends ConsumerState<AddTeacher> {
+class _AddTeacherState extends ConsumerState<AddTeacher>  with SingleTickerProviderStateMixin{
 
   String gender = "Erkek";
   TextEditingController nameController = TextEditingController();
   TextEditingController surnameController = TextEditingController();
   TextEditingController ageController = TextEditingController();
+  late final AnimationController controller = AnimationController(vsync: this);
+  final  tween = Tween<AlignmentGeometry>(begin: Alignment.centerLeft, end: Alignment.bottomCenter);
 
   final Map<String, dynamic> inputs = {};
   final _formKey = GlobalKey<FormState>();
@@ -104,9 +118,12 @@ class _AddTeacherState extends ConsumerState<AddTeacher> {
           builder: (BuildContext dialogContext) {
             return AlertDialog(
               title: Row(
-                children: const [
-                  Icon(Icons.person_add),
-                  Padding(
+                children:  [
+                  ScaleTransition(
+                      scale: controller,
+                      child: const Icon(Icons.person_add,size: 100,)
+                  ),
+                  const Padding(
                     padding: EdgeInsets.all(8.0),
                     child: Text('Add new Teacher'),
                   ),
@@ -179,6 +196,14 @@ class _AddTeacherState extends ConsumerState<AddTeacher> {
                                     child: Padding(
                                       padding: const EdgeInsets.all(8.0),
                                       child: TextFormField(
+                                        onChanged: (value) {
+                                          final v = double.tryParse(value);
+                                          controller.animateTo(
+                                              v!/100,
+                                              duration: const Duration(milliseconds: 500),
+
+                                          );
+                                        },
                                         keyboardType: TextInputType.phone,
 
 
@@ -246,15 +271,19 @@ class _AddTeacherState extends ConsumerState<AddTeacher> {
                             crossAxisAlignment: CrossAxisAlignment.end,
                             mainAxisSize: MainAxisSize.min,
                             children: [
-                              TextButton(
-                                onPressed: () {
-                                  Navigator.pop(context);
-                                  nameController.text = "";
-                                  ageController.text = "";
-                                  surnameController.text = "";
+                              AlignTransition(
+                                alignment: tween.animate(controller),
 
-                                },
-                                child: const Text('CANCEL'),
+                                child: TextButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                    nameController.text = "";
+                                    ageController.text = "";
+                                    surnameController.text = "";
+
+                                  },
+                                  child: const Text('CANCEL'),
+                                ),
                               ),
                           isSaving ? const CircularProgressIndicator(): TextButton(
                             onPressed: ()   {

@@ -84,7 +84,7 @@ class _LogInPageState extends State<LogInPage> {
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Image.asset(
-                'images/logo_holder.png',
+                'assets/images/logo_holder.png',
                 height: 90,
                 width: 90,
               ),
@@ -217,8 +217,6 @@ class _LogInPageState extends State<LogInPage> {
                                   SetOptions(merge: true),
                                   );
 
-
-
                                   Navigator.of(context).pushReplacement(
                                       MaterialPageRoute(builder: (context) {
                                         return MainPage(account: accounts[0]);
@@ -226,7 +224,7 @@ class _LogInPageState extends State<LogInPage> {
                                       )
                                   );
                                 },
-                                icon: Image.asset("images/google_logo.png")
+                                icon: Image.asset("assets/images/google_logo.png")
                             ),
                           ),
                           Padding(

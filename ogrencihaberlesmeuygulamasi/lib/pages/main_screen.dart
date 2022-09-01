@@ -7,6 +7,7 @@ import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:rive/rive.dart';
 import 'package:studentapp/pages/student_list_screen.dart';
 import 'package:studentapp/pages/teacher_list_screen.dart';
 import 'package:studentapp/repostory/student_repo.dart';
@@ -19,6 +20,7 @@ import 'message_screen.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'student_list_screen.dart';
 import 'teacher_list_screen.dart';
+import 'package:lottie/lottie.dart';
 
 /*
 rules_version = '2';
@@ -71,11 +73,22 @@ class MainPage extends ConsumerWidget {
               },
             ),
             ListTile(
-              title: const Text("Teacher List"),
+              title: Hero(
+                tag: "teacher",
+                  child: Material(
+                    child: Container(
+                      padding: const EdgeInsets.all(8.0),
+
+                        child: const Text("Teacher List")
+                    ),
+                  )
+              ),
               onTap: () {
                 Navigator.of(context).push(MaterialPageRoute(builder: (context) {
                   return TeacherListpage(teacherRepo);
-                }));
+                }
+                )
+                );
               },
             ),
             ListTile(
@@ -109,6 +122,19 @@ class MainPage extends ConsumerWidget {
 
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
+            const SizedBox(
+              width: 200,
+              height: 200,
+              child: RiveAnimation.asset(
+                'assets/animations/running guy.riv',
+                fit: BoxFit.cover,
+              ),
+            ),
+             SizedBox(
+              width: 200,
+              height: 200,
+              child: Lottie.asset('assets/animations/Person.zip'),
+            ),
 
             TextButton(onPressed: () async {
              await Navigator.of(context).push(MaterialPageRoute(builder: (context){

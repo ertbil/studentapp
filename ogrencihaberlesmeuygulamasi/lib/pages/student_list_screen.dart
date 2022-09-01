@@ -69,23 +69,27 @@ class StudentRow extends ConsumerWidget {
     bool liked = studentRepo.isLiked(student);
     return ListTile(
       leading: IntrinsicWidth(child: Center(child: Text(student.gender == "Kadın" ? "🙎🏻‍♀" : "🙎🏻‍♂"))),
-      title: Text(student.name + " " + student.surname,),
+      title: AnimatedPadding(
+        duration: const Duration(milliseconds: 500),
+          padding: EdgeInsets.only(left: liked ? 60 : 0),
+          curve: Curves.bounceOut,
+          child: Text(student.name + " " + student.surname,)
+      ),
       trailing: IconButton(
           onPressed: (){
-
-
         ref.read(studentProvider).like(student, !liked  );
 
-
-
-
       },
-          icon: Icon(liked ? Icons.favorite: Icons.favorite_border,
-                      color:liked ? Colors.red: Colors.grey ,
+          icon: AnimatedCrossFade(
+            firstChild: const Icon( Icons.favorite, color:  Colors.red) ,
+            secondChild: const Icon(Icons.favorite_border,color: Colors.grey),
+            crossFadeState: liked ? CrossFadeState.showFirst : CrossFadeState.showSecond,
+            duration: const Duration(milliseconds: 500),
 
-           )
-      ),
 
+          )
+
+           ),
     );
   }
 }
