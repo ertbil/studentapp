@@ -20,7 +20,7 @@ import 'message_screen.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'student_list_screen.dart';
 import 'teacher_list_screen.dart';
-import 'package:lottie/lottie.dart';
+//import 'package:lottie/lottie.dart';
 
 /*
 rules_version = '2';
@@ -130,11 +130,11 @@ class MainPage extends ConsumerWidget {
                 fit: BoxFit.cover,
               ),
             ),
-             SizedBox(
-              width: 200,
-              height: 200,
-              child: Lottie.asset('assets/animations/Person.zip'),
-            ),
+            //  SizedBox(
+            //   width: 200,
+            //   height: 200,
+            //   child: Lottie.asset('assets/animations/Person.zip'),
+            // ),
 
             TextButton(onPressed: () async {
              await Navigator.of(context).push(MaterialPageRoute(builder: (context){
